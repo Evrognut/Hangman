@@ -411,6 +411,18 @@ main {
   font-size: 1.75rem;
 }
 
+.hangman-figure {
+  align-self: center;
+  width: 100px;
+  height: 125px;
+  color: var(--coral);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .message.win .title {
   color: var(--marigold);
 }

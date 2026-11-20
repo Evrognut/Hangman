@@ -178,6 +178,44 @@ function makeEl(tag, className, text) {
   return el;
 }
 
+function makeHangmanIllustration() {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("class", "hangman-figure");
+  svg.setAttribute("viewBox", "0 0 120 150");
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", "A person hanging from the gallows");
+
+  const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
+  title.textContent = "The hanged man";
+  svg.appendChild(title);
+
+  const line = (x1, y1, x2, y2) => {
+    const part = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    for (const [name, value] of Object.entries({ x1, y1, x2, y2 })) {
+      part.setAttribute(name, value);
+    }
+    return part;
+  };
+
+  const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  circle.setAttribute("cx", "82");
+  circle.setAttribute("cy", "48");
+  circle.setAttribute("r", "12");
+  svg.append(
+    line(12, 136, 78, 136),
+    line(28, 136, 28, 16),
+    line(28, 16, 82, 16),
+    line(82, 16, 82, 36),
+    circle,
+    line(82, 60, 82, 96),
+    line(82, 68, 64, 84),
+    line(82, 68, 100, 84),
+    line(82, 96, 66, 120),
+    line(82, 96, 98, 120)
+  );
+  return svg;
+}
+
 // Shows the win/lose box, always followed by the word's definition.
 function showMessage(kind, title, detail) {
   messageEl.className = "message " + kind;
@@ -191,11 +229,9 @@ function showMessage(kind, title, detail) {
   );
   def.append(head, makeEl("p", "definition-text", entry.definition));
 
-  messageEl.append(
-    makeEl("span", "title", title),
-    makeEl("span", "detail", detail),
-    def
-  );
+  messageEl.append(makeEl("span", "title", title));
+  if (kind === "lose") messageEl.append(makeHangmanIllustration());
+  messageEl.append(makeEl("span", "detail", detail), def);
   messageEl.hidden = false;
 }
 
